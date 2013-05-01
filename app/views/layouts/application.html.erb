@@ -7,9 +7,19 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+	
+<div id="user_login_box" style="float:right">
+<% if user_signed_in? -%>
+          <%= current_user.email %> |
+          <%= link_to 'My info', edit_user_registration_path %> |
+          <%= link_to 'Sign out', destroy_user_session_path, :method => :delete %>
+<% else -%>
+<%= link_to "sign in with google", user_omniauth_authorize_path(:google) %>
+<% end -%>
+</div>
 	<p class="notice"><%= notice %></p>
 	<p class="alert"><%= alert %></p>
-<%= link_to "sign in with google", user_omniauth_authorize_path(:google) %>
+
 <%= yield %>
 
 </body>
