@@ -11,7 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130501035314) do
+ActiveRecord::Schema.define(:version => 20130501134402) do
+
+  create_table "portals", :force => true do |t|
+    t.string   "name"
+    t.string   "address"
+    t.string   "uid"
+    t.integer  "lat"
+    t.integer  "lng"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "portals", ["lat", "lng"], :name => "index_portals_on_lat_and_lng"
+  add_index "portals", ["uid"], :name => "index_portals_on_uid", :unique => true
 
   create_table "posts", :force => true do |t|
     t.string   "name"
