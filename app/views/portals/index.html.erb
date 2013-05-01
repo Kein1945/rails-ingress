@@ -8,10 +8,8 @@
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:address) %></th>
-      <th><%= model_class.human_attribute_name(:uid) %></th>
       <th><%= model_class.human_attribute_name(:lat) %></th>
       <th><%= model_class.human_attribute_name(:lng) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -21,10 +19,8 @@
         <td><%= link_to portal.id, portal_path(portal) %></td>
         <td><%= portal.name %></td>
         <td><%= portal.address %></td>
-        <td><%= portal.uid %></td>
         <td><%= portal.lat %></td>
         <td><%= portal.lng %></td>
-        <td><%=l portal.created_at %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_portal_path(portal), :class => 'btn btn-mini' %>
