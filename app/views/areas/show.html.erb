@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Ltlat:</b>
+  <%= @area.LTLat %>
+</p>
+
+<p>
+  <b>Ltlng:</b>
+  <%= @area.LTLng %>
+</p>
+
+<p>
+  <b>Brlat:</b>
+  <%= @area.BRLat %>
+</p>
+
+<p>
+  <b>Brlng:</b>
+  <%= @area.BRLng %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @area.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_area_path(@area) %> |
+<%= link_to 'Back', areas_path %>

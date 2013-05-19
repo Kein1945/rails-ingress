@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130501134402) do
+ActiveRecord::Schema.define(:version => 20130519174450) do
+
+  create_table "areas", :force => true do |t|
+    t.integer "LTLat"
+    t.integer "LTLng"
+    t.integer "BRLat"
+    t.integer "BRLng"
+    t.string  "name"
+  end
 
   create_table "portals", :force => true do |t|
     t.string   "name"

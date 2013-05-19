@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  LTLat: 1
+  LTLng: 1
+  BRLat: 1
+  BRLng: 1
+  name: MyString
+
+two:
+  LTLat: 1
+  LTLng: 1
+  BRLat: 1
+  BRLng: 1
+  name: MyString

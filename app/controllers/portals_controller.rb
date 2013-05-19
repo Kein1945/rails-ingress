@@ -2,7 +2,7 @@ class PortalsController < ApplicationController
   # GET /portals
   # GET /portals.json
   def index
-    @portals = Portal.all
+    @portals = Portal.limit(5)
 
     respond_to do |format|
       format.html # index.html.erb
