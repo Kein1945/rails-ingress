@@ -1,4 +1,20 @@
 Blog::Application.configure do
+
+  class DisableAssetsLogger
+    def initialize(app)
+      @app = app
+      Rails.application.assets.logger = Logger.new('/dev/null')
+    end
+
+    def call(env)
+      previous_level = Rails.logger.level
+      Rails.logger.level = Logger::ERROR if env['PATH_INFO'].index("/assets/") == 0
+      @app.call(env)
+    ensure
+      Rails.logger.level = previous_level
+    end
+  end
+
   # Settings specified here will take precedence over those in config/application.rb
 
   # In the development environment your application's code is reloaded on
@@ -34,4 +50,7 @@ Blog::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  config.middleware.insert_before Rails::Rack::Logger, DisableAssetsLogger
 end
+
