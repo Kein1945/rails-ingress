@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130519174450) do
+ActiveRecord::Schema.define(:version => 20130519175216) do
 
   create_table "areas", :force => true do |t|
     t.integer "LTLat"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20130519174450) do
     t.integer  "lng"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "area_id"
   end
 
   add_index "portals", ["lat", "lng"], :name => "index_portals_on_lat_and_lng"

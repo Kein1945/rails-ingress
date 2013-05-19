@@ -1,37 +1,38 @@
-<%= form_for(@area) do |f| %>
-  <% if @area.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@area.errors.count, "error") %> prohibited this area from being saved:</h2>
-
-      <ul>
-      <% @area.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<%= form_for @area, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :LTLat, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.number_field :LTLat, :class => 'number_field' %>
     </div>
-  <% end %>
+  </div>
+  <div class="control-group">
+    <%= f.label :LTLng, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.number_field :LTLng, :class => 'number_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :BRLat, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.number_field :BRLat, :class => 'number_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :BRLng, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.number_field :BRLng, :class => 'number_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field' %>
+    </div>
+  </div>
 
-  <div class="field">
-    <%= f.label :LTLat %><br />
-    <%= f.number_field :LTLat %>
-  </div>
-  <div class="field">
-    <%= f.label :LTLng %><br />
-    <%= f.number_field :LTLng %>
-  </div>
-  <div class="field">
-    <%= f.label :BRLat %><br />
-    <%= f.number_field :BRLat %>
-  </div>
-  <div class="field">
-    <%= f.label :BRLng %><br />
-    <%= f.number_field :BRLng %>
-  </div>
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                areas_path, :class => 'btn' %>
   </div>
 <% end %>
