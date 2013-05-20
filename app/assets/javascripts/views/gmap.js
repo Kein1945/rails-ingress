@@ -1,6 +1,9 @@
+//=require jquery.cookie
 var mapView =  Backbone.View.extend({
     initialize: function() {
     	this.initMap()
+        google.maps.event.addListener(this.map, 'center_changed', _.bind(this.onCenterChange, this) );
+        google.maps.event.addListener(this.map, 'zoom_changed', _.bind(this.onZoomChange, this) );
     }
 
     , initMap: function() {
@@ -12,8 +15,6 @@ var mapView =  Backbone.View.extend({
 		    mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
   		this.map = new google.maps.Map(this.el, mapOptions);
-  		google.maps.event.addListener(this.map, 'dragend', _.bind(this.mapDragEnd, this) );
-  		google.maps.event.addListener(this.map, 'zoom_changed', _.bind(this.mapZoomChange, this) );
     }
 
     , getLat: function(){
@@ -23,28 +24,32 @@ var mapView =  Backbone.View.extend({
     	return $.cookie(mapView.const.lng) || 30.305221557617188
     }
 
-    , mapDragEnd: function(){
-    	var bounds = this.map.getBounds()
-					, ne = bounds.getNorthEast()
-					, sw = bounds.getSouthWest()
-					, center = bounds.getCenter()
-					, region = {
-						HLat: ne.lat()*1000000
-						, RLon: ne.lng()*1000000
-						, LLat: sw.lat()*1000000
-						, LLon: sw.lng()*1000000
-						, CLat: center.lat()*1000000
-						, CLng: center.lng()*1000000
-					};
-		$.cookie(mapView.const.lat, center.lat())
-		$.cookie(mapView.const.lng, center.lng())
+    , getAreaLatLng: function(){
+        var bounds = this.map.getBounds()
+                    ;ne = bounds.getNorthEast()
+                    sw = bounds.getSouthWest()
+        return {
+                HLat: ne.lat()*1000000
+                , RLon: ne.lng()*1000000
+                , LLat: sw.lat()*1000000
+                , LLon: sw.lng()*1000000
+            }
     }
 
-    , mapZoomChange: function(){
+    , onCenterChange: function(){
+        var bounds = this.map.getBounds()
+            , center = bounds.getCenter()
+        $.cookie(mapView.const.lat, center.lat())
+        $.cookie(mapView.const.lng, center.lng())
+    }
+
+    , onZoomChange: function(){
 		$.cookie(mapView.const.zoom, this.map.getZoom())
     }
 
 });
+
+// Cookie names
 mapView.const = {}
 mapView.const.lat = 'map.lat'
 mapView.const.lng = 'map.lng'
