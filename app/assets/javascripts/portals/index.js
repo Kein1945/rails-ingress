@@ -16,9 +16,15 @@ var PortalsDashboardView =  Backbone.View.extend({
 	initialize: function() {
         
         this.gmap = this.options.map.map
+        this.map = this.options.map
 		this.collection.on('add', this.appendPortal, this);
-        this.collection.fetch()
+
+        google.maps.event.addListener(this.gmap, 'bounds_changed', _.bind(this.uploadPortals, this) );
 	}
+
+    , uploadPortals: function(){
+        this.collection.fetch({data: this.map.getAreaLatLng()})
+    }
 
 	, appendPortal: function(portal) {
 		// this.$('ul').append('<li>' + status.escape('text') + '</li>');
