@@ -2,7 +2,12 @@ class PortalsController < ApplicationController
   # GET /portals
   # GET /portals.json
   def index
-    @portals = Portal.limit(5)
+    if params.has_key?(:LLat) && params.has_key?(:HLat) && params.has_key?(:LLng) && params.has_key?(:RLng)
+      @portals = Portal.where('lat BETWEEN :LLat AND :HLat AND lng BETWEEN :LLng AND :RLng', 
+        params)
+    else
+      @portals = Portal.limit(5)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
