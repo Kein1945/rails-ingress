@@ -1,7 +1,7 @@
 Blog::Application.routes.draw do
   
+  get 'areas/dashboard' => 'areas#dashboard'
   resources :areas
-
 
   resources :portals
 

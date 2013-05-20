@@ -1,4 +1,4 @@
 class Area < ActiveRecord::Base
-  attr_accessible :BRLat, :BRLng, :LTLat, :LTLng, :name
+  attr_accessible :name
   has_many	:portals
 end

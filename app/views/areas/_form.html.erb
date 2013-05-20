@@ -1,29 +1,5 @@
 <%= form_for @area, :html => { :class => 'form-horizontal' } do |f| %>
   <div class="control-group">
-    <%= f.label :LTLat, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.number_field :LTLat, :class => 'number_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :LTLng, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.number_field :LTLng, :class => 'number_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :BRLat, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.number_field :BRLat, :class => 'number_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :BRLng, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.number_field :BRLng, :class => 'number_field' %>
-    </div>
-  </div>
-  <div class="control-group">
     <%= f.label :name, :class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :name, :class => 'text_field' %>

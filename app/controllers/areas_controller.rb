@@ -10,6 +10,11 @@ class AreasController < ApplicationController
     end
   end
 
+  # GET /areas/dashboard
+  def dashboard
+    
+  end
+
   # GET /areas/1
   # GET /areas/1.json
   def show

@@ -1,0 +1,6 @@
+
+<div id="gmap" style="width: 870px; height: 560px">Google maps doesn't support?</div>
+<% content_for :javascript do %>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+	<%= javascript_include_tag "areas/dashboard" %>
+<% end %>

@@ -6,12 +6,6 @@
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:LTLat) %></th>
-      <th><%= model_class.human_attribute_name(:LTLng) %></th>
-      <th><%= model_class.human_attribute_name(:BRLat) %></th>
-      <th><%= model_class.human_attribute_name(:BRLng) %></th>
-      <th><%= model_class.human_attribute_name(:name) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -19,12 +13,7 @@
     <% @areas.each do |area| %>
       <tr>
         <td><%= link_to area.id, area_path(area) %></td>
-        <td><%= area.LTLat %></td>
-        <td><%= area.LTLng %></td>
-        <td><%= area.BRLat %></td>
-        <td><%= area.BRLng %></td>
         <td><%= area.name %></td>
-        <td><%=l area.created_at %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_area_path(area), :class => 'btn btn-mini' %>
