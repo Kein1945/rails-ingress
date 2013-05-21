@@ -18,4 +18,8 @@ class User < ActiveRecord::Base
       User.create!(:email => data["email"], :password => Devise.friendly_token[0,20])
     end
   end
+
+  def approved?
+    access_level == 1
+  end
 end

@@ -1,5 +1,8 @@
 Blog::Application.routes.draw do
   
+  get 'users' => 'users#index'
+  get 'users/:id' => 'users#show', :as => :user
+
   get 'areas/dashboard' => 'areas#dashboard'
   resources :areas
 
