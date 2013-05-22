@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  action_at: 1
+  player_id: 1
+  portal_id: 1
+  deploy: MyString
+  destroy: MyString
+
+two:
+  action_at: 1
+  player_id: 1
+  portal_id: 1
+  deploy: MyString
+  destroy: MyString

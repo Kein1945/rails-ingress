@@ -1,0 +1,2 @@
+# From actions to stat
+INSERT INTO actions (action_at, player_id, deploy, destroy) SELECT FROM_UNIXTIME(FLOOR(time/1200)*1200) `at`, player_id, SUM(IF(action='deployed an', resonator,0)) `deployed`, SUM(IF(action='destroyed an', resonator, 0)) `destroyed` FROM ingt.event_res GROUP BY `at`, player_id
