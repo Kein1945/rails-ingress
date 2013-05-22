@@ -1,0 +1,43 @@
+<%- model_class = Player -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:fraction) %></th>
+      <th><%= model_class.human_attribute_name(:level) %></th>
+      <th><%= model_class.human_attribute_name(:realname) %></th>
+      <th><%= model_class.human_attribute_name(:gplus) %></th>
+      <th><%= model_class.human_attribute_name(:vk) %></th>
+      <th><%= model_class.human_attribute_name(:comments) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @players.each do |player| %>
+      <tr>
+        <td><%= link_to player.id, player_path(player) %></td>
+        <td><%= player.name %></td>
+        <td><%= player.fraction %></td>
+        <td><%= player.level %></td>
+        <td><%= player.realname %></td>
+        <td><%= player.gplus %></td>
+        <td><%= player.vk %></td>
+        <td><%= player.comments %></td>
+        <td><%=l player.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_player_path(player), :class => 'btn btn-mini' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_player_path,
+            :class => 'btn btn-primary' %>

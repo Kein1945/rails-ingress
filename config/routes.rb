@@ -1,5 +1,8 @@
 Blog::Application.routes.draw do
   
+  resources :players
+
+
   get 'users' => 'users#index'
   get 'users/:id' => 'users#show', :as => :user
 

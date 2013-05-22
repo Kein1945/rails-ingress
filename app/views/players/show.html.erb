@@ -1,0 +1,28 @@
+<%- model_class = Player -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @player.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:fraction) %>:</strong></dt>
+  <dd><%= @player.fraction %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:level) %>:</strong></dt>
+  <dd><%= @player.level %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:realname) %>:</strong></dt>
+  <dd><%= @player.realname %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:gplus) %>:</strong></dt>
+  <dd><%= @player.gplus %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:vk) %>:</strong></dt>
+  <dd><%= @player.vk %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:comments) %>:</strong></dt>
+  <dd><%= @player.comments %></dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              players_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_player_path(@player), :class => 'btn' %>
+</div>
