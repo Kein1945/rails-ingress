@@ -1,0 +1,28 @@
+<%- model_class = Action -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:action_at) %></th>
+      <th><%= model_class.human_attribute_name(:deploy_ap) %></th>
+      <th><%= model_class.human_attribute_name(:destroy_ap) %></th>
+      <th><%= model_class.human_attribute_name(:deployes) %></th>
+      <th><%= model_class.human_attribute_name(:destroyes) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @actions.each do |action| %>
+      <tr>
+        <td><%= action.id %></td>
+        <td><%= action.action_at %></td>
+        <td><%= action.deploy_ap %></td>
+        <td><%= action.destroy_ap %></td>
+        <td><%= action.deployes %></td>
+        <td><%= action.destroyes %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

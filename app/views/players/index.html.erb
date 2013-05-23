@@ -21,7 +21,7 @@
     <% @players.each do |player| %>
       <tr>
         <td><%= link_to player.id, player_path(player) %></td>
-        <td><%= player.name %></td>
+        <td><%= link_to (player.name+"&nbsp;&raquo;").html_safe, action_path(player.id) %></td>
         <td><%= player.fraction %></td>
         <td><%= player.level %></td>
         <td><%= player.realname %></td>

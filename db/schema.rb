@@ -11,13 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130522214038) do
+ActiveRecord::Schema.define(:version => 20130523180329) do
 
   create_table "actions", :force => true do |t|
     t.integer  "player_id"
-    t.string   "deploy"
-    t.string   "destroy"
+    t.string   "deploy_ap"
+    t.string   "destroy_ap"
     t.datetime "action_at"
+    t.integer  "deployes"
+    t.integer  "destroyes"
   end
 
   create_table "areas", :force => true do |t|

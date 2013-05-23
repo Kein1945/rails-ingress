@@ -1,5 +1,7 @@
 Blog::Application.routes.draw do
   
+
+  get 'player/:player_id/actions' => 'actions#index', :as => :action
   resources :players
 
 
