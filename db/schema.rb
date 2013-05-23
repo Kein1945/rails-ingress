@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130523180329) do
+ActiveRecord::Schema.define(:version => 20130523200212) do
 
   create_table "actions", :force => true do |t|
     t.integer  "player_id"
@@ -73,7 +73,6 @@ ActiveRecord::Schema.define(:version => 20130523180329) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
-    t.integer  "access_level"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

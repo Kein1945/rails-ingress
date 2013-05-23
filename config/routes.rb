@@ -5,8 +5,6 @@ Blog::Application.routes.draw do
   resources :players
 
 
-  get 'users' => 'users#index'
-  get 'users/:id' => 'users#show', :as => :user
 
   get 'areas/dashboard' => 'areas#dashboard'
   resources :areas
@@ -15,6 +13,8 @@ Blog::Application.routes.draw do
 
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  get 'users' => 'users#index'
+  get 'users/:id' => 'users#show', :as => :user
 
   resources :posts
   
