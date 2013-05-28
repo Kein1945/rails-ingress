@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
+  has_many :permissions
   # attr_accessible :title, :body
 
   def self.find_for_open_id(access_token, signed_in_resource=nil)

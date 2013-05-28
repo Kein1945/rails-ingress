@@ -14,6 +14,12 @@
   <dd><%= @user.last_sign_in_at %></dd>
 </dl>
 
+<ul>
+  <% @user.permissions.each do |permission| %>
+    <li><strong><%= link_to permission.name, edit_permission_path(permission.id) %></strong> &mdash; :<%= permission.action %>, <%= permission.subject_class %><%= (', '+permission.subject_id.to_s) unless permission.subject_id.nil? || permission.subject_id == 0%></li>
+  <% end %>
+</ul>
+
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),
               users_path, :class => 'btn'  %>

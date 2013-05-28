@@ -2,6 +2,21 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    # can :manage, User
+    can do |action, subject_class, subject|
+      if user
+        if user.id == 1
+          true
+        else
+          user.permissions.find_all_by_action(aliases_for_action(action)).any? do |permission|
+            permission.subject_class == subject_class.to_s &&
+              (subject.nil? || permission.subject_id.nil? || permission.subject_id == subject.id)
+          end
+        end
+      else
+        false
+      end
+    end
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)

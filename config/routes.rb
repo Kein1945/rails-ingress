@@ -16,8 +16,11 @@ Blog::Application.routes.draw do
 
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+
   get 'users' => 'users#index'
   get 'users/:id' => 'users#show', :as => :user
+
+  get 'users/:id/permissions/new' => 'permissions#new', :as => :permission
 
   resources :posts
   

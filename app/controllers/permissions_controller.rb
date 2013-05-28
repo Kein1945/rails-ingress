@@ -24,7 +24,9 @@ class PermissionsController < ApplicationController
   # GET /permissions/new
   # GET /permissions/new.json
   def new
+    @user = User.find(params[:id])
     @permission = Permission.new
+    @permission.user_id = @user
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,6 +43,7 @@ class PermissionsController < ApplicationController
   # POST /permissions.json
   def create
     @permission = Permission.new(params[:permission])
+    @user = User.find(params[:id])
 
     respond_to do |format|
       if @permission.save
