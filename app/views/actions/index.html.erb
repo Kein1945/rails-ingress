@@ -2,6 +2,92 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
 </div>
+
+<% content_for :javascript do %>
+  <%= javascript_include_tag "highchart/highcharts" %>
+  <%= javascript_include_tag "highchart/modules/exporting" %>
+
+<script>
+$(function () {
+        var series = [
+
+            <% @actions.each do |name, actions_by_type| %>
+            {
+              name: '<%= name %>',
+              type: '<%= (name == :usage_points or name == :action_points) ? 'spline' : 'column' %>',
+                data: [
+              <% actions_by_type.each do |action| %>
+                
+                  [ new Date('<%= action[:date].strftime('%Y-%m-%d %H:%M:%S') %>').getTime(), <%= action[:activity] %>],
+                
+              <% end %>
+            ]} ,
+            <% end %>
+            ]
+            , pieSeries = [{
+                //center: [100, 80],
+                // size: 100,
+                showInLegend: false,
+                dataLabels: {
+                    enabled: false
+                },
+            data: [
+            <% @hourly_actions.each do |action| %>
+              { name: '<%= action[:hour] %>', y: <%= action[:activity] %> },
+            <% end %>
+            ]}];
+        $('#container').highcharts({
+            chart: {
+                //type: 'column'
+            },
+            title: {
+                text: 'Player <%= @player.name %> activity'
+            },
+            subtitle: {
+                text: 'Last 50 groups'
+            },
+            xAxis: {
+                type: 'datetime',
+                // tickInterval : 60 * 1000,
+                // dateTimeLabelFormats: { // don't display the dummy year
+                //     // minute: '%H:%M',
+                //     day: '%e. %b',
+                // }
+            },
+            yAxis: {
+                title: {
+                    text: 'Amount and action points'
+                },
+                min: 0
+            },
+            tooltip: {
+                // formatter: function() {
+                //       return '<b>'+ this.series.name +'</b><br/>'+
+                //         Highcharts.dateFormat('%d %H:%M', this.x) +' / '+ this.y +' points';
+                // }
+                shared: true,
+                crosshairs: true
+            },
+            series: series
+        });
+        $('#containerPie').highcharts({
+            chart: { type: 'pie' },
+            title: { text: 'Hour activity' },
+            
+            tooltip: {
+                shared: true,
+                crosshairs: true
+            },
+            series: pieSeries
+        });
+    });
+</script>
+<% end %>
+
+<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+
+<div id="containerPie" style="width: 300px; height: 300px; margin: 0 auto"></div>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -13,16 +99,4 @@
       <th><%= model_class.human_attribute_name(:destroyes) %></th>
     </tr>
   </thead>
-  <tbody>
-    <% @actions.each do |action| %>
-      <tr>
-        <td><%= action.id %></td>
-        <td><%= action.action_at %></td>
-        <td><%= action.deploy_ap %></td>
-        <td><%= action.destroy_ap %></td>
-        <td><%= action.deployes %></td>
-        <td><%= action.destroyes %></td>
-      </tr>
-    <% end %>
-  </tbody>
 </table>
