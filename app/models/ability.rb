@@ -8,7 +8,8 @@ class Ability
         if user.id == 1
           true
         else
-          user.permissions.find_all_by_action(aliases_for_action(action)).any? do |permission|
+          actions = [aliases_for_action(:manage), aliases_for_action(action)].uniq
+          user.permissions.find_all_by_action(actions).any? do |permission|
             permission.subject_class == subject_class.to_s &&
               (subject.nil? || permission.subject_id.nil? || permission.subject_id == subject.id)
           end

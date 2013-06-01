@@ -8,7 +8,10 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
-  has_many :permissions
+  attr_accessor :accessible
+  
+  has_and_belongs_to_many :permissions, :join_table => :users_permissions
+  belongs_to :player
   # attr_accessible :title, :body
 
   def self.find_for_open_id(access_token, signed_in_resource=nil)
@@ -18,5 +21,10 @@ class User < ActiveRecord::Base
 	else
       User.create!(:email => data["email"], :password => Devise.friendly_token[0,20])
     end
+  end
+  
+  private
+  def mass_assignment_authorizer(role = :default)
+    super + (accessible || [])
   end
 end

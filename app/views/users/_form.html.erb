@@ -1,0 +1,28 @@
+<%= form_for @user, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :email, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :email, :class => 'text_field', :readonly => true %>
+    </div>
+  </div>
+
+
+  <div class="control-group">
+    <%= f.label :permissions, :class => 'control-label' %>
+    <div class="controls">
+    		<% for permission in Permission.find(:all) %>
+    				<label class="checkbox">
+    					<%= check_box_tag "user[permission_ids][]", permission.id, @user.permissions.include?(permission) %>
+    					<%= permission.name %>
+    				</label>
+    		<% end %>
+    </div>
+  </div>
+
+
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                permissions_path, :class => 'btn' %>
+  </div>
+<% end %>

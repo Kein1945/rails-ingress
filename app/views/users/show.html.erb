@@ -12,6 +12,12 @@
   <dd><%= @user.created_at %></dd>
   <dt><strong><%= model_class.human_attribute_name(:last_sign_in_at) %>:</strong></dt>
   <dd><%= @user.last_sign_in_at %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:player) %>:</strong></dt>
+  <% if @user.player %>
+    <dd><%= link_to @user.player.name, player_path(@user.player) %></dd>
+  <% else %>
+    <dd>Not confirmed yet</dd>
+  <% end %>
 </dl>
 
 <ul>
@@ -23,4 +29,8 @@
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),
               users_path, :class => 'btn'  %>
+  <% if can? :manage, User %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_user_path(@user), :class => 'btn' %>
+  <% end %>
 </div>
