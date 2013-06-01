@@ -11,74 +11,51 @@
 
 <script>
 $(function () {
-        var series = [
-
+        var dailySeries = [
             <% @actions.each do |name, actions_by_type| %>
             {
-              name: '<%= name %>',
-              type: '<%= (name == :usage_points or name == :action_points) ? 'spline' : 'column' %>',
+                name: '<%= name %>',
+                type: '<%= (name == :usage_points or name == :action_points) ? 'spline' : 'column' %>',
                 data: [
-              <% actions_by_type.each do |action| %>
-                
-                  [ new Date('<%= action[:date].strftime('%Y-%m-%d %H:%M:%S') %>').getTime(), <%= action[:activity] %>],
-                
-              <% end %>
-            ]} ,
+                <% actions_by_type.each do |action| %>
+                    [ new Date('<%= action[:date].strftime('%Y-%m-%d %H:%M:%S') %>').getTime(), <%= action[:activity] %>],
+                <% end %>
+                ]
+            } ,
             <% end %>
-            ]
-            , pieSeries = {
-                center: [110, 100],
-                size: 150,
-                showInLegend: false,
-            data: [
-            <% @hourly_actions.each do |action| %>
-              { name: '<%= action[:hour] %>', y: <%= action[:activity] %> },
-            <% end %>
-            ]}
-            , pie4Series = {
-                center: [410, 100],
-                size: 150,
-                showInLegend: false,
-            data: [
-            <% @hourly4_actions.each do |action| %>
-              { name: '<%= action[:hour] %> - <%= action[:hour].to_i+4 %>', y: <%= action[:activity] %> },
-            <% end %>
-            ]};
-        $('#container').highcharts({
-            chart: {
-                //type: 'column'
-            },
-            title: {
-                text: 'Daily activity'
-            },
-            subtitle: {
-                text: 'Last 50 groups'
-            },
-            xAxis: {
-                type: 'datetime',
-                // tickInterval : 60 * 1000,
-                // dateTimeLabelFormats: { // don't display the dummy year
-                //     // minute: '%H:%M',
-                //     day: '%e. %b',
-                // }
-            },
+            ];
+        $('#dailyActivity').highcharts({
+            title: { text: 'Daily activity' },
+            xAxis: { type: 'datetime' },
             yAxis: {
-                title: {
-                    text: 'Amount and action points'
-                },
+                title: { text: 'Amount and action points' },
                 min: 0
             },
             tooltip: {
-                // formatter: function() {
-                //       return '<b>'+ this.series.name +'</b><br/>'+
-                //         Highcharts.dateFormat('%d %H:%M', this.x) +' / '+ this.y +' points';
-                // }
-                shared: true,
-                crosshairs: true
+                shared: true, crosshairs: true
             },
-            series: series
+            series: dailySeries
         });
-        $('#containerPie').highcharts({
+
+
+        var hourSeries = [{
+                center: [110, 100], size: 150,
+                showInLegend: false,
+                data: [
+                    <% @hourly_actions.each do |action| %>
+                        { name: '<%= action[:hour] %>', y: <%= action[:activity] %> },
+                    <% end %>
+                ]}
+            , {
+                center: [410, 100], size: 150,
+                showInLegend: false,
+                data: [
+                    <% @hourly4_actions.each do |action| %>
+                        { name: '<%= action[:hour] %> - <%= action[:hour].to_i+4 %>', y: <%= action[:activity] %> },
+                    <% end %>
+                ]}
+            ];
+        $('#hourActivity').highcharts({
             chart: { type: 'pie' },
             title: { text: 'Hour activity' },
             
@@ -89,12 +66,11 @@ $(function () {
                    return '<strong>'+this.key + '</strong><br>' + this.total + ' (' + Highcharts.numberFormat(this.percentage, 1)+ '%)';
                 }
             },
-            series: [pieSeries, pie4Series]
+            series: hourSeries
         });
     });
 </script>
 <% end %>
 
-<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
-
-<div id="containerPie" style="width: 600px; height: 300px; margin: 0 auto"></div>
+<div id="dailyActivity" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+<div id="hourActivity" style="width: 600px; height: 300px; margin: 0 auto"></div>
