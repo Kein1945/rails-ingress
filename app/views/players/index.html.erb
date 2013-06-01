@@ -18,8 +18,6 @@
       <th><%= model_class.human_attribute_name(:fraction) %></th>
       <th><%= model_class.human_attribute_name(:level) %></th>
       <th><%= model_class.human_attribute_name(:realname) %></th>
-      <th><%= model_class.human_attribute_name(:gplus) %></th>
-      <th><%= model_class.human_attribute_name(:vk) %></th>
       <th><%= model_class.human_attribute_name(:comments) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
@@ -32,8 +30,6 @@
         <td><%= player.fraction %></td>
         <td><%= player.level %></td>
         <td><%= player.realname %></td>
-        <td><%= player.gplus %></td>
-        <td><%= player.vk %></td>
         <td><%= player.comments %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
@@ -43,7 +39,3 @@
     <% end %>
   </tbody>
 </table>
-
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_player_path,
-            :class => 'btn btn-primary' %>
