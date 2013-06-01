@@ -1,7 +1,9 @@
 <%- model_class = Action -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+  <h1><%= @player.name %> activity</h1>
 </div>
+
+<%= link_to '&laquo; Back to '.html_safe+ @player.name + ' profile', player_path(@player), :class => 'btn'%>
 
 <% content_for :javascript do %>
   <%= javascript_include_tag "highchart/highcharts" %>
@@ -24,24 +26,30 @@ $(function () {
             ]} ,
             <% end %>
             ]
-            , pieSeries = [{
-                //center: [100, 80],
-                // size: 100,
+            , pieSeries = {
+                center: [110, 100],
+                size: 150,
                 showInLegend: false,
-                dataLabels: {
-                    enabled: false
-                },
             data: [
             <% @hourly_actions.each do |action| %>
               { name: '<%= action[:hour] %>', y: <%= action[:activity] %> },
             <% end %>
-            ]}];
+            ]}
+            , pie4Series = {
+                center: [410, 100],
+                size: 150,
+                showInLegend: false,
+            data: [
+            <% @hourly4_actions.each do |action| %>
+              { name: '<%= action[:hour] %> - <%= action[:hour].to_i+4 %>', y: <%= action[:activity] %> },
+            <% end %>
+            ]};
         $('#container').highcharts({
             chart: {
                 //type: 'column'
             },
             title: {
-                text: 'Player <%= @player.name %> activity'
+                text: 'Daily activity'
             },
             subtitle: {
                 text: 'Last 50 groups'
@@ -76,9 +84,12 @@ $(function () {
             
             tooltip: {
                 shared: true,
-                crosshairs: true
+                crosshairs: true,
+                formatter: function () {
+                   return '<strong>'+this.key + '</strong><br>' + this.total + ' (' + Highcharts.numberFormat(this.percentage, 1)+ '%)';
+                }
             },
-            series: pieSeries
+            series: [pieSeries, pie4Series]
         });
     });
 </script>
@@ -86,17 +97,4 @@ $(function () {
 
 <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
 
-<div id="containerPie" style="width: 300px; height: 300px; margin: 0 auto"></div>
-
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:action_at) %></th>
-      <th><%= model_class.human_attribute_name(:deploy_ap) %></th>
-      <th><%= model_class.human_attribute_name(:destroy_ap) %></th>
-      <th><%= model_class.human_attribute_name(:deployes) %></th>
-      <th><%= model_class.human_attribute_name(:destroyes) %></th>
-    </tr>
-  </thead>
-</table>
+<div id="containerPie" style="width: 600px; height: 300px; margin: 0 auto"></div>

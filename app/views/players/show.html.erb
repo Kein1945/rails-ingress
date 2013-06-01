@@ -3,6 +3,15 @@
   <h1><%=t '.title', :default => model_class.model_name.human %></h1>
 </div>
 
+  <div class="pull-right">
+    <% if @player.vk %>
+      <a target="_blank" href="https://vk.com/<%= @player.vk %>"><%= image_tag 'habrapack/with_shadow/vk.png' %></a>
+    <% end %>
+    <% if @player.gplus %>
+      <a target="_blank" href="https://plus.google.com/<%= @player.gplus %>"><%= image_tag 'habrapack/with_shadow/google_plus.png' %></a>
+    <% end %>
+  </div>
+  
 <h2 class="<%= @player.fraction == 'ALIENS' ? 'text-success' : 'text-info' %>">
   <%= @player.name %>
   <% if @player.level > 1 %>
@@ -12,14 +21,12 @@
     <sup>[<%= @player.realname %>]</sup>
   <% end %>
 </h2>
-  <div class="pull_right">
-    <% if @player.vk %>
-      <a target="_blank" href="https://vk.com/<%= @player.vk %>"><%= image_tag 'habrapack/with_shadow/vk.png' %></a>
-    <% end %>
-    <% if @player.gplus %>
-      <a target="_blank" href="https://plus.google.com/<%= @player.gplus %>"><%= image_tag 'habrapack/with_shadow/google_plus.png' %></a>
-    <% end %>
-  </div>
+
+
+  <% if can? :statistic, Player %>
+    <%= link_to t('.edit', :default => t("helpers.links.activity")),
+              action_path(@player.id), :class => 'btn btn-primary' %>
+  <% end %>
 
 <dl class="dl-horizontal">
   <dt><strong><%= model_class.human_attribute_name(:phone) %>:</strong></dt>
@@ -35,6 +42,8 @@
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),
               players_path, :class => 'btn'  %>
+  <% if can? :manage, Player %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),
               edit_player_path(@player), :class => 'btn' %>
+  <% end %>
 </div>

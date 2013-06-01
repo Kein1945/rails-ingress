@@ -8,7 +8,8 @@ class ActionsController < ApplicationController
 
   	actions = Action.find(:all, :conditions => ['player_id = ?', @player.id], :order => 'action_at')
   		# .group_by{ |r| r.action_at.strftime('%Y %m %d') }.values.flatten
-  	hourly_actions = actions.group_by{ |r| r.action_at.strftime('%H')}
+    hourly_actions = actions.group_by{ |r| r.action_at.strftime('%H')}
+    hourly4_actions = actions.group_by{ |r| 4*(r.action_at.strftime('%H').to_i/4) }
 
   	@actions = {
   		:deploy_ap => actions.collect{ |r| { :date => r.action_at, :activity => r.deploy_ap } } ,
@@ -18,8 +19,12 @@ class ActionsController < ApplicationController
   		:usage_points => actions.collect{ |r| { :date => r.action_at, :activity => r.destroyes.to_i + r.deployes.to_i } },
   		:action_points => actions.collect{ |r| { :date => r.action_at, :activity => r.destroy_ap.to_i + r.deploy_ap.to_i } }
   	}
-  	@hourly_actions = hourly_actions.to_a
-  		.collect{ |r| { :hour => r[0], :activity => r[1].collect{|r| r.destroyes.to_i + r.deployes.to_i}.sum } }
-  		.sort{ |a, b| a[:hour].to_i <=> b[:hour].to_i }
+    @hourly_actions = hourly_actions.to_a
+      .collect{ |r| { :hour => r[0], :activity => r[1].collect{|r| r.destroyes.to_i + r.deployes.to_i}.sum } }
+      .sort{ |a, b| a[:hour].to_i <=> b[:hour].to_i }
+    @hourly4_actions = hourly4_actions.to_a
+      .collect{ |r| { :hour => r[0], :activity => r[1].collect{|r| r.destroyes.to_i + r.deployes.to_i}.sum } }
+      .sort{ |a, b| a[:hour].to_i <=> b[:hour].to_i }
+
   end
 end
