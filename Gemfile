@@ -17,7 +17,8 @@ gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) support
 gem "twitter-bootstrap-rails" # https://github.com/seyhunak/twitter-bootstrap-rails
 
 # paggination
-gem 'kaminari'
+# gem 'kaminari'
+gem 'will_paginate'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -46,4 +47,4 @@ gem 'jquery-rails'
 # gem 'capistrano'
 
 # To use debugger
-# gem 'debugger'
+gem 'debugger'

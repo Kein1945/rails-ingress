@@ -4,7 +4,8 @@ class PlayersController < ApplicationController
   # GET /players
   # GET /players.json
   def index
-    @players = Player.order(:created_at).limit(10)
+    #@players = Player.order(:created_at).limit(10)
+    @players = Player.search(params[:search]).order("name").paginate(:per_page => 10, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

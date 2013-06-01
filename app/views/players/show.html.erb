@@ -3,19 +3,31 @@
   <h1><%=t '.title', :default => model_class.model_name.human %></h1>
 </div>
 
+<h2 class="<%= @player.fraction == 'ALIENS' ? 'text-success' : 'text-info' %>">
+  <%= @player.name %>
+  <% if @player.level > 1 %>
+    (<%= @player.level %>)
+  <% end %>
+  <% if @player.realname %>
+    <sup>[<%= @player.realname %>]</sup>
+  <% end %>
+</h2>
+  <div class="pull_right">
+    <% if @player.vk %>
+      <a target="_blank" href="https://vk.com/<%= @player.vk %>"><%= image_tag 'habrapack/with_shadow/vk.png' %></a>
+    <% end %>
+    <% if @player.gplus %>
+      <a target="_blank" href="https://plus.google.com/<%= @player.gplus %>"><%= image_tag 'habrapack/with_shadow/google_plus.png' %></a>
+    <% end %>
+  </div>
+
 <dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
-  <dd><%= @player.name %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:fraction) %>:</strong></dt>
-  <dd><%= @player.fraction %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:level) %>:</strong></dt>
-  <dd><%= @player.level %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:realname) %>:</strong></dt>
-  <dd><%= @player.realname %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:gplus) %>:</strong></dt>
-  <dd><%= @player.gplus %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:vk) %>:</strong></dt>
-  <dd><%= @player.vk %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:phone) %>:</strong></dt>
+  <dd><%= @player.phone %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:location) %>:</strong></dt>
+  <dd><%= @player.location %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:transport) %>:</strong></dt>
+  <dd><%= @player.transport %></dd>
   <dt><strong><%= model_class.human_attribute_name(:comments) %>:</strong></dt>
   <dd><%= @player.comments %></dd>
 </dl>
