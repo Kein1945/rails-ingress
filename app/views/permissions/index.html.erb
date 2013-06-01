@@ -6,7 +6,6 @@
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:user_id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:subject_class) %></th>
       <th><%= model_class.human_attribute_name(:subject_id) %></th>
@@ -20,7 +19,6 @@
     <% @permissions.each do |permission| %>
       <tr>
         <td><%= link_to permission.id, permission_path(permission) %></td>
-        <td><%= permission.user_id %></td>
         <td><%= permission.name %></td>
         <td><%= permission.subject_class %></td>
         <td><%= permission.subject_id %></td>

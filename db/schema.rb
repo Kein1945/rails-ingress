@@ -27,7 +27,6 @@ ActiveRecord::Schema.define(:version => 20130601115927) do
   end
 
   create_table "permissions", :force => true do |t|
-    t.integer  "user_id"
     t.string   "name"
     t.string   "subject_class"
     t.integer  "subject_id"
