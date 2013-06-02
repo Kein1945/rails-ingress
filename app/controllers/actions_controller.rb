@@ -1,4 +1,5 @@
 class ActionsController < ApplicationController
+  load_and_authorize_resource
   def index
   	@player = Player.find(params[:player_id])
   	unless @player

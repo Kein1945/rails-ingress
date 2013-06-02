@@ -1,4 +1,5 @@
 class PermissionsController < ApplicationController
+  load_and_authorize_resource
   # GET /permissions
   # GET /permissions.json
   def index

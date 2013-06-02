@@ -1,4 +1,5 @@
 class PortalsController < ApplicationController
+  load_and_authorize_resource
   # GET /portals
   # GET /portals.json
   def index

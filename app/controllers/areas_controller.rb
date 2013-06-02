@@ -1,4 +1,5 @@
 class AreasController < ApplicationController
+  load_and_authorize_resource
   # GET /areas
   # GET /areas.json
   def index
