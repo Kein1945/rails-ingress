@@ -11,63 +11,57 @@
 
 <script>
 $(function () {
-        var dailySeries = [
-            <% @actions.each do |name, actions_by_type| %>
-            {
-                name: '<%= name %>',
-                type: '<%= (name == :usage_points or name == :action_points) ? 'spline' : 'column' %>',
-                data: [
-                <% actions_by_type.each do |action| %>
-                    [ new Date('<%= action[:date].strftime('%Y-%m-%d %H:%M:%S') %>').getTime(), <%= action[:activity] %>],
-                <% end %>
-                ]
-            } ,
-            <% end %>
-            ];
-        $('#dailyActivity').highcharts({
-            title: { text: 'Daily activity' },
-            xAxis: { type: 'datetime' },
-            yAxis: {
-                title: { text: 'Amount and action points' },
-                min: 0
-            },
-            tooltip: {
-                shared: true, crosshairs: true
-            },
-            series: dailySeries
-        });
+        $.get('<%= daily_action_path(@player.id) %>', function(data){
+            $('#dailyActivity').highcharts({
+                title: { text: 'Daily activity' },
+                xAxis: { type: 'datetime' },
+                yAxis: {
+                    title: { text: 'Amount actions and activity points' },
+                    min: 0
+                },
+                tooltip: {
+                    shared: true, crosshairs: true
+                },
+                series: data
+            });
+        })
 
+        $.get('<%= hour_action_path(@player.id) %>', function(data){
+            var four_hour_stat = {}, four_hour_data = []
 
-        var hourSeries = [{
+            // Конвертируем почасовую статистику, в группы по 4 часа
+            for(var i in data){
+                var hour = Math.floor((data[i][0]) / 4)*4, activity = data[i][1];
+                if( four_hour_stat[hour] ) four_hour_stat[hour][1] += activity
+                else four_hour_stat[hour] = [ hour + " - " + (hour+4), activity ]
+            }
+            for (var i in four_hour_stat ) four_hour_data.push( four_hour_stat[i] )
+            // Необходимо преобразовать к строке, иначе Highchart не понимает число
+            for(var i in data) data[i][0] = data[i][0] + ''
+
+            var hourSeries = [{
                 center: [110, 100], size: 150,
-                showInLegend: false,
-                data: [
-                    <% @hourly_actions.each do |action| %>
-                        { name: '<%= action[:hour] %>', y: <%= action[:activity] %> },
-                    <% end %>
-                ]}
-            , {
+                showInLegend: false, data: data
+            }, {
                 center: [410, 100], size: 150,
-                showInLegend: false,
-                data: [
-                    <% @hourly4_actions.each do |action| %>
-                        { name: '<%= action[:hour] %> - <%= action[:hour].to_i+4 %>', y: <%= action[:activity] %> },
-                    <% end %>
-                ]}
-            ];
-        $('#hourActivity').highcharts({
-            chart: { type: 'pie' },
-            title: { text: 'Hour activity' },
-            
-            tooltip: {
-                shared: true,
-                crosshairs: true,
-                formatter: function () {
-                   return '<strong>'+this.key + '</strong><br>' + this.total + ' (' + Highcharts.numberFormat(this.percentage, 1)+ '%)';
-                }
-            },
-            series: hourSeries
+                showInLegend: false, data: four_hour_data
+            }];
+
+            $('#hourActivity').highcharts({
+                chart: { type: 'pie' },
+                title: { text: 'Hour activity' },
+                
+                tooltip: {
+                    shared: true,
+                    crosshairs: true,
+                    formatter: function () {
+                       return '<strong>'+this.key + '</strong><br>' + this.total + ' (' + Highcharts.numberFormat(this.percentage, 1)+ '%)';
+                    }
+                },
+                series: hourSeries
+            });
         });
+        
     });
 </script>
 <% end %>

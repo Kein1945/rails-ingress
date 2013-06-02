@@ -5,6 +5,8 @@ Blog::Application.routes.draw do
 
 
   get 'player/:player_id/actions' => 'actions#index', :as => :action
+  get 'player/:player_id/actions/daily' => 'actions#daily', :as => :daily_action, :defaults => { :format => 'json' }
+  get 'player/:player_id/actions/hour' => 'actions#hour', :as => :hour_action, :defaults => { :format => 'json' }
   resources :players
 
 

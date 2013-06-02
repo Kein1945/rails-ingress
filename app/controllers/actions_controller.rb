@@ -5,26 +5,42 @@ class ActionsController < ApplicationController
   		flash[:notice] = "The player you were looking for could not be found."
     	redirect_to root_path
   	end
+  end
 
-  	actions = Action.find(:all, :conditions => ['player_id = ?', @player.id], :order => 'action_at')
-  		# .group_by{ |r| r.action_at.strftime('%Y %m %d') }.values.flatten
-    hourly_actions = actions.group_by{ |r| r.action_at.strftime('%H')}
-    hourly4_actions = actions.group_by{ |r| 4*(r.action_at.strftime('%H').to_i/4) }
+  def daily
+    actions = Action.byPlayer(params[:player_id])
 
-  	@actions = {
-  		:deploy_ap => actions.collect{ |r| { :date => r.action_at, :activity => r.deploy_ap } } ,
-  		:destroy_ap => actions.collect{ |r| { :date => r.action_at, :activity => r.destroy_ap } },
-  		:deployes => actions.collect{ |r| { :date => r.action_at, :activity => r.deployes } },
-  		:destroyes => actions.collect{ |r| { :date => r.action_at, :activity => r.destroyes } },
-  		:usage_points => actions.collect{ |r| { :date => r.action_at, :activity => r.destroyes.to_i + r.deployes.to_i } },
-  		:action_points => actions.collect{ |r| { :date => r.action_at, :activity => r.destroy_ap.to_i + r.deploy_ap.to_i } }
-  	}
-    @hourly_actions = hourly_actions.to_a
-      .collect{ |r| { :hour => r[0], :activity => r[1].collect{|r| r.destroyes.to_i + r.deployes.to_i}.sum } }
-      .sort{ |a, b| a[:hour].to_i <=> b[:hour].to_i }
-    @hourly4_actions = hourly4_actions.to_a
-      .collect{ |r| { :hour => r[0], :activity => r[1].collect{|r| r.destroyes.to_i + r.deployes.to_i}.sum } }
-      .sort{ |a, b| a[:hour].to_i <=> b[:hour].to_i }
+    grouped_actions = {
+      :deploy_ap => actions.collect{ |r| [ r.action_at.to_i*1000, r.deploy_ap.to_i ] } ,
+      :destroy_ap => actions.collect{ |r| [ r.action_at.to_i*1000,  r.destroy_ap.to_i ] },
+      :deployes => actions.collect{ |r| [ r.action_at.to_i*1000, r.deployes.to_i ]},
+      :destroyes => actions.collect{ |r| [r.action_at.to_i*1000, r.destroyes.to_i ] },
+      :usage_points => actions.collect{ |r| [ r.action_at.to_i*1000, r.destroyes.to_i + r.deployes.to_i] },
+      :action_points => actions.collect{ |r| [ r.action_at.to_i*1000, r.destroy_ap.to_i + r.deploy_ap.to_i] }
+    }
 
+    @actions = grouped_actions.collect do |name, actions_by_type|
+      {
+        :name => name,
+        :type => (name == :usage_points or name == :action_points) ? 'spline' : 'column',
+        :data => actions_by_type
+      }
+    end
+    respond_to do |format|
+      format.json { render :json => @actions }
+    end
+  end
+
+  def hour
+    actions = Action.byPlayer(params[:player_id])
+    hourly_actions = actions.group_by{ |r| r.action_at.strftime('%H').to_i}
+
+    hourly = hourly_actions.to_a
+      .collect{ |r| [ r[0], r[1].collect{|r| r.destroyes.to_i + r.deployes.to_i}.sum ] }
+      .sort{ |a, b| a[0] <=> b[0] }
+
+    respond_to do |format|
+      format.json { render :json => hourly }
+    end
   end
 end
